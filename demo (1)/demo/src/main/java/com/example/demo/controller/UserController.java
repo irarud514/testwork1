@@ -42,7 +42,7 @@ public class UserController {
         userRepository.deleteAll();
         return ResponseEntity.ok().build();
     }
-    @PostMapping("/users")
+    @PostMapping("/users.firstname")
     public ResponseEntity<Void> updateFirstNameUsers(){
         for (UserEntity user : entities){
             user.setFirstName("Irina");

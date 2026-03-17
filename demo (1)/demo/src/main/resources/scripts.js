@@ -2,7 +2,7 @@ let editingUserId = null;
 
 function userList() {
     $.ajax({
-        url: 'http://localhost:8081/api/users',
+        url: 'http://localhost:8080/api/users',
         type: 'GET',
         dataType: 'json',
         success: function (users) {
@@ -70,7 +70,7 @@ function addUser() {
     }
 
     $.ajax({
-        url: "http://localhost:8081/api/users",
+        url: "http://localhost:8080/api/users",
         type: 'POST',
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify(user),
@@ -87,7 +87,7 @@ function addUser() {
 function deleteUser(id) {
     if (!confirm("Are you sure you want to delete this user?")) return;
     $.ajax({
-        url: 'http://localhost:8081/api/users/' + id,
+        url: 'http://localhost:8080/api/users/' + id,
         type: 'DELETE',
         success: function () {
             userList();
@@ -119,7 +119,7 @@ function updateUser() {
     }
 
     $.ajax({
-        url: 'http://localhost:8081/api/users/' + editingUserId,
+        url: 'http://localhost:8080/api/users/' + editingUserId,
         type: 'PUT',
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify(user),
@@ -134,9 +134,8 @@ function updateUser() {
 }
 
 function deleteAllClick() {
-    if (!confirm("Delete all users?")) return;
     $.ajax({
-        url: 'http://localhost:8081/api/users',
+        url: 'http://localhost:8080/api/users',
         type: 'DELETE',
         success: function () {
             userDeleteSuccess();
@@ -151,9 +150,9 @@ function userDeleteSuccess() {
     $("#userTable tbody").remove();
 }
 
-function updateSurnames() {
+function updateLastnames() {
     $.ajax({
-        url: 'http://localhost:8081/api/users/update-surnames',
+        url: 'http://localhost:8080/api/users/update-lastnames',
         type: 'POST',
         success: function () {
             userList();
