@@ -30,14 +30,16 @@ function userAddRow(user) {
 
 function userBuildTableRow(user) {
     return "<tr>" +
-        "<td>" + user.firstname + "</td>" +
-        "<td>" + user.lastname + "</td>" +
-        "<td>" + (user.age !== undefined ? user.age : '') + "</td>" +
-        "<td>" +
+        "  <td>" + user.firstname + "</td>" +
+        "  <td>" + user.lastname + "</td>" +
+        "  <td>" + (user.age !== undefined ? user.age : '') + "</td>" +
+        "  <td>" +
         "<button class='btn btn-sm btn-danger' onclick='deleteUser(" + user.id + ")'>Delete</button> " +
-        "<button class='btn btn-sm btn-warning' onclick='editUser(" + user.id + ", \"" + user.firstname + "\", \"" + user.lastname + "\", " + (user.age !== undefined ? user.age : 'null') + ")'>Update</button>" +
-        "</td>" +
-        "</tr>";
+        "<button class='btn btn-sm btn-warning' onclick='editUser(" + user.id + ", \"" + user.firstname + "\", \"" + user.lastname + "\", " + (user.age !== undefined ? user.age : 'null') + ")'>Update</button> " +
+        "<button class='btn btn-sm btn-primary' onclick='renameUser(" + user.id + ")'>Rename to RUDNIKOVA</button> " +
+        "<button class='btn btn-sm btn-info' onclick='setAge100(" + user.id + ")'>Set Age 100</button>" +
+        "  </td>" +
+        "  </tr>";
 }
 
 function handleException(request, message, error) {
@@ -133,12 +135,24 @@ function updateUser() {
     });
 }
 
-function deleteAllClick() {
+function renameUser(id) {
     $.ajax({
-        url: 'http://localhost:8080/api/users',
-        type: 'DELETE',
-        success: function () {
-            userDeleteSuccess();
+        url: 'http://localhost:8080/api/users/' + id,
+        type: 'GET',
+        success: function (user) {
+            user.lastname = "RUDNIKOVA";
+            $.ajax({
+                url: 'http://localhost:8080/api/users/' + id,
+                type: 'PUT',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(user),
+                success: function () {
+                    userList();
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
         },
         error: function (request, message, error) {
             handleException(request, message, error);
@@ -146,16 +160,24 @@ function deleteAllClick() {
     });
 }
 
-function userDeleteSuccess() {
-    $("#userTable tbody").remove();
-}
-
-function updateLastnames() {
+function setAge100(id) {
     $.ajax({
-        url: 'http://localhost:8080/api/users/update-lastnames',
-        type: 'POST',
-        success: function () {
-            userList();
+        url: 'http://localhost:8080/api/users/' + id,
+        type: 'GET',
+        success: function (user) {
+            user.age = 100;
+            $.ajax({
+                url: 'http://localhost:8080/api/users/' + id,
+                type: 'PUT',
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify(user),
+                success: function () {
+                    userList();
+                },
+                error: function (request, message, error) {
+                    handleException(request, message, error);
+                }
+            });
         },
         error: function (request, message, error) {
             handleException(request, message, error);

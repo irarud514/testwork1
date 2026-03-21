@@ -16,7 +16,12 @@ public class UserInfo {
     @JsonProperty("age")
     private Integer age;
 
+    public UserInfo() {
+    }
+
     public UserInfo(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public UserInfo(Long id, String firstName, String lastName, Integer age) {

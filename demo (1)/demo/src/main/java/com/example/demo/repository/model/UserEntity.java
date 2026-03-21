@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "firstName")
@@ -19,7 +19,7 @@ public class UserEntity {
     @Column(name = "age")
     private Integer age;
 
-    public UserEntity(String firstName, String lastName) {
+    public UserEntity() {
     }
 
     public UserEntity(String firstName, String lastName, Integer age) {
